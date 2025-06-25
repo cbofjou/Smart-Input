@@ -1,0 +1,38 @@
+<!-- 插件配置文件。阅读更多： https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+<!-- 插件的唯一标识符。它应该是 FQN。它不能在插件版本之间更改。-->
+    <id>com.wanyunfei.demo</id>
+
+    <!-- Public plugin name （公共插件名称） 应以 Title Case （标题大小写） 书写。
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Smart Input</name>
+
+  <!-- 插件页面上显示的供应商名称或组织 ID。-->
+    <vendor email="2046345294@qq.com" url="https://github.com/cbofjou">WanYunFei</vendor>
+
+    <!-- Plugin Page （插件页面） 和 IDE Plugin Manager （IDE 插件管理器） 上显示的插件的描述。
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    A demo plugin for IntelliJ IDEA that provides smart input functionality.<br>
+    This plugin demonstrates basic plugin development concepts and serves as a starting point for more advanced features.
+  ]]></description>
+
+    <!-- 产品和插件兼容性要求。
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- 插件定义的扩展点。
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+    <!-- 在此处添加您的扩展 -->
+        <postStartupActivity implementation="com.wanyunfei.demo.Controllers.ProjectStart"/>
+        <applicationService
+                serviceInterface="com.wanyunfei.demo.Services.IInputStatus"
+                serviceImplementation="com.wanyunfei.demo.Services.InputStatus"/>
+    </extensions>
+
+    <!-- Actions -->
+<!--    <actions>-->
+<!--       &lt;!&ndash; 在此处添加您的作 &ndash;&gt;-->
+<!--    </actions>-->
+</idea-plugin>

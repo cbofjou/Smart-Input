@@ -1,0 +1,78 @@
+plugins {
+    id("java")
+    id("org.jetbrains.intellij") version "1.17.4"
+}
+
+group = "cm.wyf"
+version = "1.0.0"
+
+repositories {
+    // 使用阿里云镜像源加速下载
+    maven {
+        url 'https://maven.aliyun.com/repository/public/'
+        name 'AliYun Public'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/central'
+        name 'AliYun Central'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/gradle-plugin'
+        name 'AliYun Gradle Plugin'
+    }
+    // JetBrains 相关依赖仍需要官方仓库
+    maven {
+        url 'https://cache-redirector.jetbrains.com/intellij-dependencies'
+        name 'JetBrains Cache'
+    }
+    maven {
+        url 'https://cache-redirector.jetbrains.com/maven-central'
+        name 'JetBrains Maven Central Cache'
+    }
+    // 备用仓库
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+// Configure Gradle IntelliJ Plugin
+intellij {
+    version = "2024.1.6"
+    type = "IC"
+    plugins = ['java']
+    updateSinceUntilBuild = true
+
+    // 使用本地缓存目录
+    downloadSources = false  // 不下载源码，加快速度
+    instrumentCode = false   // 跳过代码插桩，加快构建
+}
+
+// Java 编译配置
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xlint:unchecked', '-Xlint:deprecation']
+}
+
+//tasks.patchPluginXml {
+//    sinceBuild.set("231")
+//    untilBuild.set("241.*")
+//}
+//
+//tasks.signPlugin {
+//    certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+//    privateKey.set(System.getenv("PRIVATE_KEY"))
+//    password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+//}
+//
+//tasks.publishPlugin {
+//    token.set(System.getenv("PUBLISH_TOKEN"))
+//}
+
+// 配置 Gradle 守护进程参数（可选）
+tasks.withType(JavaExec).configureEach {
+    jvmArgs('-Xmx2g', '-XX:+UseG1GC')
+}
